@@ -82,15 +82,14 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     public Collection<Meal> filterByPredicate(int userId, Predicate<Meal> filter) {
-        if(repository.get(userId) != null){
-        return repository.get(userId)
-                .values()
-                .stream()
-                .filter(filter)
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
-        }
-        else {
+        if (repository.get(userId) != null) {
+            return repository.get(userId)
+                    .values()
+                    .stream()
+                    .filter(filter)
+                    .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+                    .collect(Collectors.toList());
+        } else {
             return Collections.emptyList();
         }
     }

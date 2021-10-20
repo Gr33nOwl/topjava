@@ -29,12 +29,12 @@ public class MealService {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-    public void delete(int id, int userId) throws NotFoundException{
+    public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id, userId), userId);
     }
 
     public Meal get(int id, int userId) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id, userId),id);
+        return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
     public Collection<Meal> getAll(int userId) {
