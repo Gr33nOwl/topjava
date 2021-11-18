@@ -5,14 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class RootController {
     @Autowired
-    private UserService service;
+    private UserService userService;
+
+    @Autowired
+    private MealService mealService;
 
     @GetMapping("/")
     public String root() {
@@ -21,7 +28,7 @@ public class RootController {
 
     @GetMapping("/users")
     public String getUsers(Model model) {
-        model.addAttribute("users", service.getAll());
+        model.addAttribute("users", userService.getAll());
         return "users";
     }
 
@@ -30,5 +37,11 @@ public class RootController {
         int userId = Integer.parseInt(request.getParameter("userId"));
         SecurityUtil.setAuthUserId(userId);
         return "redirect:meals";
+    }
+
+    @GetMapping("/meals")
+    public String getMeals(Model model){
+       model.addAttribute("meals", MealsUtil.getTos(mealService.getAll(SecurityUtil.authUserId()), SecurityUtil.authUserCaloriesPerDay()));
+       return "meals";
     }
 }
