@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.util.MealsUtil.createTo;
+import static ru.javawebinar.topjava.util.MealsUtil.getTos;
 
 class MealRestControllerTest extends AbstractControllerTest {
 
@@ -82,9 +83,18 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getBetween() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDateTime=2020-01-30T07:00&endDateTime=2020-01-31T11:00:00"))
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter")
+                .param("startDate", "2020-01-30").param("startTime", "07:00")
+                .param("endDate", "2020-01-31").param("endTime", "11:00"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MEAL_TO_MATCHER.contentJson(createTo(meal5, true), createTo(meal1, false)));
+    }
+
+    @Test
+    void getBetweenAll() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "filter?startDate=&endTime="))
+                .andExpect(status().isOk())
+                .andExpect(MEAL_TO_MATCHER.contentJson(getTos(meals, user.getCaloriesPerDay())));
     }
 }
