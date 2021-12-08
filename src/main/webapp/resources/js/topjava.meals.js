@@ -12,6 +12,14 @@ const ctx = {
     }
 }
 
+function  clearFilter () {
+   document.getElementById('filter').reset();
+   $.ajax({
+       type: "GET",
+       url: "profile/meals"
+   }).done(updateTableByData);
+}
+
 $(function () {
     makeEditable(
         $("#datatable").DataTable({

@@ -1,3 +1,7 @@
+tr[data-userEnabled="false"] {
+    opacity: 0.3;
+}
+
 tr[data-meal-excess="false"] {
     color: green;
 }
